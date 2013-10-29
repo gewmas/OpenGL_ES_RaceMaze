@@ -31,6 +31,8 @@
 		4C837CC3181F6E3B0019BF47 /* CC3GLMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C837CBB181F6E3B0019BF47 /* CC3GLMatrix.m */; };
 		4C837CC4181F6E3B0019BF47 /* CC3Kazmath.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C837CBC181F6E3B0019BF47 /* CC3Kazmath.c */; };
 		4C837CC5181F6E3B0019BF47 /* CC3Math.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C837CC0181F6E3B0019BF47 /* CC3Math.m */; };
+		4C837CC81820326D0019BF47 /* item_powerup_fish.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C837CC61820326D0019BF47 /* item_powerup_fish.png */; };
+		4C837CC91820326D0019BF47 /* tile_floor.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C837CC71820326D0019BF47 /* tile_floor.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +82,8 @@
 		4C837CBF181F6E3B0019BF47 /* CC3Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CC3Math.h; sourceTree = "<group>"; };
 		4C837CC0181F6E3B0019BF47 /* CC3Math.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CC3Math.m; sourceTree = "<group>"; };
 		4C837CC1181F6E3B0019BF47 /* ccTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ccTypes.h; sourceTree = "<group>"; };
+		4C837CC61820326D0019BF47 /* item_powerup_fish.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = item_powerup_fish.png; sourceTree = "<group>"; };
+		4C837CC71820326D0019BF47 /* tile_floor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tile_floor.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +203,8 @@
 		4C837CA7181EAF8D0019BF47 /* asset */ = {
 			isa = PBXGroup;
 			children = (
+				4C837CC61820326D0019BF47 /* item_powerup_fish.png */,
+				4C837CC71820326D0019BF47 /* tile_floor.png */,
 				4C837C82181DFAB10019BF47 /* Images.xcassets */,
 			);
 			name = asset;
@@ -322,11 +328,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C837CC91820326D0019BF47 /* tile_floor.png in Resources */,
 				4C837CAD181EB1700019BF47 /* MainStoryboard.storyboard in Resources */,
 				4C837CB4181F491A0019BF47 /* SimpleVertex.glsl in Resources */,
 				4C837C7B181DFAB10019BF47 /* InfoPlist.strings in Resources */,
 				4C837C83181DFAB10019BF47 /* Images.xcassets in Resources */,
 				4C837CB6181F492E0019BF47 /* SimpleFragment.glsl in Resources */,
+				4C837CC81820326D0019BF47 /* item_powerup_fish.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
