@@ -4,8 +4,9 @@ attribute vec4 SourceColor; //input variable
 varying vec4 DestinationColor; //output variable
 
 uniform mat4 Projection;
+uniform mat4 Modelview; //transform/scale/rotation matrix
 
 void main(void) { 
     DestinationColor = SourceColor; //destination color equal to source color, OpengGL interpolate the values
-    gl_Position = Projection * Position; //build-in output variable
+    gl_Position = Projection * Modelview * Position;//build-in output variable
 }

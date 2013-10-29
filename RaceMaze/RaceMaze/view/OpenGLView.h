@@ -17,7 +17,10 @@
     EAGLContext* _context;
     
     GLuint _colorRenderBuffer;
+    
     GLuint _projectionUniform;
+    GLuint _modelViewUniform;
+    GLuint _depthRenderBuffer;
 }
 
 
