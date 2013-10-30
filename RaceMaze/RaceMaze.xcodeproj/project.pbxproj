@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C17EF3F18208470001FF50B /* duke_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C17EF3E18208470001FF50B /* duke_icon.png */; };
 		4C837C71181DFAB10019BF47 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C837C70181DFAB10019BF47 /* Foundation.framework */; };
 		4C837C73181DFAB10019BF47 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C837C72181DFAB10019BF47 /* CoreGraphics.framework */; };
 		4C837C75181DFAB10019BF47 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C837C74181DFAB10019BF47 /* UIKit.framework */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C17EF3E18208470001FF50B /* duke_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = duke_icon.png; sourceTree = "<group>"; };
 		4C837C6D181DFAB10019BF47 /* RaceMaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RaceMaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C837C70181DFAB10019BF47 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4C837C72181DFAB10019BF47 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -203,6 +205,7 @@
 		4C837CA7181EAF8D0019BF47 /* asset */ = {
 			isa = PBXGroup;
 			children = (
+				4C17EF3E18208470001FF50B /* duke_icon.png */,
 				4C837CC61820326D0019BF47 /* item_powerup_fish.png */,
 				4C837CC71820326D0019BF47 /* tile_floor.png */,
 				4C837C82181DFAB10019BF47 /* Images.xcassets */,
@@ -331,6 +334,7 @@
 				4C837CC91820326D0019BF47 /* tile_floor.png in Resources */,
 				4C837CAD181EB1700019BF47 /* MainStoryboard.storyboard in Resources */,
 				4C837CB4181F491A0019BF47 /* SimpleVertex.glsl in Resources */,
+				4C17EF3F18208470001FF50B /* duke_icon.png in Resources */,
 				4C837C7B181DFAB10019BF47 /* InfoPlist.strings in Resources */,
 				4C837C83181DFAB10019BF47 /* Images.xcassets in Resources */,
 				4C837CB6181F492E0019BF47 /* SimpleFragment.glsl in Resources */,

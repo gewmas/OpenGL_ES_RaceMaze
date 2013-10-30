@@ -17,6 +17,10 @@
     float _currentRotationX;
     float _currentRotationY;
     float _currentRotationZ;
+    
+    float _locationX;
+    float _locationY;
+    float _locationZ;
 
 }
 
@@ -94,7 +98,64 @@ const Vertex Vertices2[] = {
 };
 
 const GLubyte Indices2[] = {
-    1, 0, 2, 3
+    0, 1, 2,
+    2, 3, 0
+};
+
+const Vertex Vertices3[] = {
+    // Front
+    {{1, -1, 0}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{1, 1, 0}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-1, 1, 0}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-1, -1, 0}, {0, 0, 0, 1}, {0, 0}},
+    // Back
+    {{3, -3, -15}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{3, 3, -15}, {1, 0, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-3, 3, -15}, {0, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{-3, -3, -15}, {0, 1, 0, 1}, {0, 0}},
+    // Left
+    {{-3, -3, 2}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{-3, 3, 2}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-3, 3, -15}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-3, -3, -15}, {0, 0, 0, 1}, {0, 0}},
+    // Right
+    {{3, -3, 2}, {0, 0, 0, 1}, {0, 0}},
+    {{3, -3, -15}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{3, 3, -15}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{3, 3, 2}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    // Top
+    {{3, 3, 2}, {1, 0, 0, 1}, {0, TEX_COORD_MAX}},
+    {{3, 3, -15}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-3, 3, -15}, {0, 0, 1, 1}, {TEX_COORD_MAX, 0}},
+    {{-3, 3, 2}, {0, 0, 0, 1}, {0, 0}},
+    // Bottom
+    {{3, -3, -15}, {1, 0, 0, 1}, {TEX_COORD_MAX, 0}},
+    {{3, -3, 2}, {0, 1, 0, 1}, {TEX_COORD_MAX, TEX_COORD_MAX}},
+    {{-3, -3, 2}, {0, 0, 1, 1}, {0, TEX_COORD_MAX}},
+    {{-3, -3, -15}, {0, 0, 0, 1}, {0, 0}}
+
+};
+
+const GLubyte Indices3[] = {
+    // Front
+//    0, 1, 2,
+//    2, 3, 0,
+    // Back
+    4, 6, 5,
+    5, 7, 4,
+   // Left
+   8, 9, 10,
+   8, 11, 10,
+   // Right
+   12, 15, 13,
+   13, 15, 14,
+    // Top
+    18, 17, 16,
+    18, 16, 19,
+   // Bottom
+   20, 21, 22,
+   20, 23, 22
+
 };
 
 
@@ -238,7 +299,7 @@ const GLubyte Indices2[] = {
 
 //Vertex Buffer Objects
 - (void)setupVBOs {
-
+//    //object 1
     glGenBuffers(1, &_vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
@@ -247,6 +308,7 @@ const GLubyte Indices2[] = {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
 
+    //object 2
     glGenBuffers(1, &_vertexBuffer2);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices2), Vertices2, GL_STATIC_DRAW);
@@ -254,58 +316,45 @@ const GLubyte Indices2[] = {
     glGenBuffers(1, &_indexBuffer2);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices2), Indices2, GL_STATIC_DRAW);
+    
+    //object 3
+    glGenBuffers(1, &_vertexBuffer3);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer3);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices3), Vertices3, GL_STATIC_DRAW);
+    
+    glGenBuffers(1, &_indexBuffer3);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer3);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices3), Indices3, GL_STATIC_DRAW);
 
 }
 
 
-
-
-
-- (void)render:(CADisplayLink*)displayLink {
-    //set to GL_ONE for the source (which means “take all of the source”) and GL_ONE_MINS_SRC_ALPHA for the destination (which means “take all of the destination except where the source is set”).
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);
-//    glEnable(GL_CULL_FACE);
-
-    glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
-//    glClear(GL_COLOR_BUFFER_BIT);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_DEPTH_TEST);
-
-    //Projection
-    CC3GLMatrix *projection = [CC3GLMatrix matrix];
-    float h = 4.0f * self.frame.size.height / self.frame.size.width;
-    [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:10];
-    glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
-
-    
+- (void)drawCube
+{
+    ///object 1
+    glPushMatrix();
     
     //Modelview, translation, rotation
     CC3GLMatrix *modelView = [CC3GLMatrix matrix];
     [modelView populateFromTranslation:CC3VectorMake(0, 0, -7)];
-//    [modelView populateFromTranslation:CC3VectorMake(sin(CACurrentMediaTime()), 0, -7)]; //whitin near and far, x, y, z
-    [modelView translateBy:CC3VectorMake(0, 0, -1)];
+    //    [modelView populateFromTranslation:CC3VectorMake(sin(CACurrentMediaTime()), 0, -7)]; //whitin near and far, x, y, z
+    [modelView translateBy:CC3VectorMake(_locationX, 0, _locationZ)];
     [modelView rotateBy:CC3VectorMake(_currentRotationX, _currentRotationY, _currentRotationZ)];
-    [modelView translateBy:CC3VectorMake(0, 0, 1)];
+//    [modelView translateBy:CC3VectorMake(0, 0, 1)];
     
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
 
     
-    
-    //set the portion of the UIView to use for rendering
-    //By default, OpenGL has the “camera” at (0,0,0), looking down the z-axis. The bottom left of the screen is mapped to (-1,-1), and the upper right of the screen is mapped to (1,1),
-    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
-
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-
+    
     //Position
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE,
                           sizeof(Vertex), 0);
     //Color
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE,
                           sizeof(Vertex), (GLvoid*) (sizeof(float) * 3)); //offset 3, x y z
-
+    
     //Texture
     glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE,
                           sizeof(Vertex), (GLvoid*) (sizeof(float) * 7)); //offset 7, x y z r b g a
@@ -317,26 +366,89 @@ const GLubyte Indices2[] = {
     //Index
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]),
                    GL_UNSIGNED_BYTE, 0);
-
+    glPopMatrix();
+    
+    
+    ///--------------object 2----------
+    glDisable(GL_CULL_FACE);
+    glPushMatrix();
+    
+    
     //FISH texture
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer2);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer2);
-
+    
     glActiveTexture(GL_TEXTURE0); // unneccc in practice
     glBindTexture(GL_TEXTURE_2D, _fishTexture); // FISH!
     glUniform1i(_textureUniform, 0); // unnecc in practice
-
+    
     
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
-
+    
     glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
     glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
-
-    glDrawElements(GL_TRIANGLE_STRIP, sizeof(Indices2)/sizeof(Indices2[0]), GL_UNSIGNED_BYTE, 0);
-
     
-    //update
+    glDrawElements(GL_TRIANGLE_STRIP, sizeof(Indices2)/sizeof(Indices2[0]), GL_UNSIGNED_BYTE, 0);
+    glPopMatrix();
+    glEnable(GL_CULL_FACE);
+
+}
+
+- (void)drawWall
+{
+    //Modelview, translation, rotation
+    CC3GLMatrix *modelView = [CC3GLMatrix matrix];
+    [modelView populateFromTranslation:CC3VectorMake(0, 0, -7)];
+    
+    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
+    
+    glPushMatrix();
+    
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer3);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer3);
+    
+    glActiveTexture(GL_TEXTURE0); // unneccc in practice
+    glBindTexture(GL_TEXTURE_2D, _floorTexture);
+    glUniform1i(_textureUniform, 0); // unnecc in practice
+    
+    
+    glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
+    
+    glVertexAttribPointer(_positionSlot, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(_colorSlot, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 3));
+    glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
+    
+    glDrawElements(GL_TRIANGLE_STRIP, sizeof(Indices3)/sizeof(Indices3[0]), GL_UNSIGNED_BYTE, 0);
+    glPopMatrix();
+}
+
+
+- (void)render:(CADisplayLink*)displayLink {
+    //set to GL_ONE for the source (which means “take all of the source”) and GL_ONE_MINS_SRC_ALPHA for the destination (which means “take all of the destination except where the source is set”).
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    glEnable(GL_CULL_FACE);
+
+    glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
+//    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+
+    //Projection
+    CC3GLMatrix *projection = [CC3GLMatrix matrix];
+    float h = 4.0f * self.frame.size.height / self.frame.size.width;
+    [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:3 andFar:20];
+    glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
+    
+    //set the portion of the UIView to use for rendering
+    //By default, OpenGL has the “camera” at (0,0,0), looking down the z-axis. The bottom left of the screen is mapped to (-1,-1), and the upper right of the screen is mapped to (1,1),
+    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+
+    [self drawCube];
+    [self drawWall];
+    
+        //update
 //    //Modelview Matrix
 //    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -8.0f); //move backwards within near plane and far plane
 //    modelViewMatrix = GLKMatrix4Multiply(modelViewMatrix, _rotMatrix);
@@ -396,7 +508,7 @@ const GLubyte Indices2[] = {
         [self setupVBOs];
         [self setupDisplayLink];
         _floorTexture = [self setupTexture:@"tile_floor.png"];
-        _fishTexture = [self setupTexture:@"item_powerup_fish.png"];
+        _fishTexture = [self setupTexture:@"duke_icon.png"];
     }
     return self;
 }
@@ -425,6 +537,27 @@ const GLubyte Indices2[] = {
     
     _currentRotationX += diff.y;
     _currentRotationY += diff.x;
+    
+    
+    if (diff.x > 0) {
+        _locationX -= 0.02;
+    }else{
+        _locationX += 0.02;
+    }
+    
+    if (_locationX > 0.2) {
+        _locationX = 0.2;
+    }
+    if (_locationX < -0.2) {
+        _locationX = -0.2;
+    }
+    
+    if (diff.y > 0) {
+        _locationZ -= 0.05;
+    }else{
+        _locationZ += 0.05;
+    }
+
     
 //    bool isInvertible;
 //    GLKVector3 xAxis = GLKMatrix4MultiplyVector3(GLKMatrix4Invert(_rotMatrix, &isInvertible),
