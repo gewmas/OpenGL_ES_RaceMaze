@@ -10,6 +10,18 @@
 #import "OpenGLView.h"
 #import "CC3GLMatrix.h"
 
+@interface OpenGLView ()
+{
+    GLKMatrix4 _rotMatrix;
+    
+    float _currentRotationX;
+    float _currentRotationY;
+    float _currentRotationZ;
+
+}
+
+@end
+
 @implementation OpenGLView
 
 #define TEX_COORD_MAX 4
@@ -58,8 +70,8 @@ const GLubyte Indices[] = {
     0, 1, 2,
     2, 3, 0,
     // Back
-    4, 5, 6,
-    6, 7, 4,
+    4, 6, 5,
+    5, 7, 4,
     // Left
     8, 9, 10,
     10, 11, 8,
@@ -253,6 +265,7 @@ const GLubyte Indices2[] = {
     //set to GL_ONE for the source (which means “take all of the source”) and GL_ONE_MINS_SRC_ALPHA for the destination (which means “take all of the destination except where the source is set”).
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
+//    glEnable(GL_CULL_FACE);
 
     glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
 //    glClear(GL_COLOR_BUFFER_BIT);
@@ -265,13 +278,20 @@ const GLubyte Indices2[] = {
     [projection populateFromFrustumLeft:-2 andRight:2 andBottom:-h/2 andTop:h/2 andNear:4 andFar:10];
     glUniformMatrix4fv(_projectionUniform, 1, 0, projection.glMatrix);
 
+    
+    
     //Modelview, translation, rotation
     CC3GLMatrix *modelView = [CC3GLMatrix matrix];
-    [modelView populateFromTranslation:CC3VectorMake(sin(CACurrentMediaTime()), 0, -7)]; //whitin near and far, x, y, z
-    _currentRotation += displayLink.duration * 90;
-    [modelView rotateBy:CC3VectorMake(_currentRotation, _currentRotation, 0)];
+    [modelView populateFromTranslation:CC3VectorMake(0, 0, -7)];
+//    [modelView populateFromTranslation:CC3VectorMake(sin(CACurrentMediaTime()), 0, -7)]; //whitin near and far, x, y, z
+    [modelView translateBy:CC3VectorMake(0, 0, -1)];
+    [modelView rotateBy:CC3VectorMake(_currentRotationX, _currentRotationY, _currentRotationZ)];
+    [modelView translateBy:CC3VectorMake(0, 0, 1)];
+    
     glUniformMatrix4fv(_modelViewUniform, 1, 0, modelView.glMatrix);
 
+    
+    
     //set the portion of the UIView to use for rendering
     //By default, OpenGL has the “camera” at (0,0,0), looking down the z-axis. The bottom left of the screen is mapped to (-1,-1), and the upper right of the screen is mapped to (1,1),
     glViewport(0, 0, self.frame.size.width, self.frame.size.height);
@@ -314,10 +334,16 @@ const GLubyte Indices2[] = {
     glVertexAttribPointer(_texCoordSlot, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) (sizeof(float) * 7));
 
     glDrawElements(GL_TRIANGLE_STRIP, sizeof(Indices2)/sizeof(Indices2[0]), GL_UNSIGNED_BYTE, 0);
+
+    
+    //update
+//    //Modelview Matrix
+//    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -8.0f); //move backwards within near plane and far plane
+//    modelViewMatrix = GLKMatrix4Multiply(modelViewMatrix, _rotMatrix);
+
     
     [_context presentRenderbuffer:GL_RENDERBUFFER];
 }
-
 
 
 
@@ -382,5 +408,33 @@ const GLubyte Indices2[] = {
     [super dealloc];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch * touch = [touches anyObject];
+    CGPoint location = [touch locationInView:self];
+    CGPoint lastLoc = [touch previousLocationInView:self];
+    CGPoint diff = CGPointMake(lastLoc.x - location.x, lastLoc.y - location.y);
+    
+//    float rotX = -1 * GLKMathDegreesToRadians(diff.y / 2.0);
+//    float rotY = -1 * GLKMathDegreesToRadians(diff.x / 2.0);
+//    NSLog(@"%f, %f", rotX, rotY);
+    
+    _currentRotationX += diff.y;
+    _currentRotationY += diff.x;
+    
+//    bool isInvertible;
+//    GLKVector3 xAxis = GLKMatrix4MultiplyVector3(GLKMatrix4Invert(_rotMatrix, &isInvertible),
+//                                                 GLKVector3Make(1, 0, 0));
+//    _rotMatrix = GLKMatrix4Rotate(_rotMatrix, rotX, xAxis.x, xAxis.y, xAxis.z);
+//    GLKVector3 yAxis = GLKMatrix4MultiplyVector3(GLKMatrix4Invert(_rotMatrix, &isInvertible),
+//                                                 GLKVector3Make(0, 1, 0));
+//    _rotMatrix = GLKMatrix4Rotate(_rotMatrix, rotY, yAxis.x, yAxis.y, yAxis.z);
+    
+}
+
+
 @end
-//
